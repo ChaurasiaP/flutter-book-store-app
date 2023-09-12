@@ -30,35 +30,37 @@ class _SignUpState extends State<SignUp> {
             children: [
               Container(
                 alignment: Alignment.center,
-                color: Colors.greenAccent,
+                color: Colors.orangeAccent,
                 height: MediaQuery.of(context).size.height*0.065,
                 width: MediaQuery.of(context).size.width,
                 child: Text("Join The Bugs!!", style: titleBarText()),
               ),
               Padding(
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.15),
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
                 child: Column(
                   children: [
-                    const Icon(Icons.person_add),
+                    const Icon(Icons.person_add, size: 130,),
                     Padding(
                       padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.05),
                       child: Column(
                         children: [
                           TextField(
                               controller: firstNameController,
-                              decoration: textBoxDecoration("Your First Name")
+                              decoration: textBoxDecoration("First Name","Your First Name")
                           ),
                           TextField(
                               controller: lastNameController,
-                              decoration: textBoxDecoration("Your Last Name")
+                              decoration: textBoxDecoration("Last Name", "Your Last Name")
                           ),
                           TextField(
                               controller: emailController,
-                              decoration: textBoxDecoration("Enter Email")
+                              decoration: textBoxDecoration("Email", "Enter Email")
                           ),
                           TextField(
                               controller: passwordController,
-                              decoration: textBoxDecoration("Enter Password")
+                              decoration: textBoxDecoration("Password", "Enter Password"),
+                            obscureText: true,
+                            obscuringCharacter: '*',
                           ),
                           ElevatedButton(onPressed: _createUser, child: const Text("Click to confirm"))
                         ],

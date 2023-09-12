@@ -20,7 +20,8 @@ Widget titleBar(BuildContext context) =>
             width: MediaQuery.of(context).size.width*0.7,
             decoration: BoxDecoration(
                 color: Colors.white54,
-                border: Border.all(color: Colors.black54, width: 0.5)
+                borderRadius: BorderRadius.circular(7),
+                border: Border.all(color: Colors.black54, width: 0.5),
             ),
             child: InkWell(
               onTap: (){
@@ -44,4 +45,18 @@ Widget titleBar(BuildContext context) =>
               child: const Icon(Icons.shopping_cart_outlined, color: Colors.black,))
         ],
       ),
+    );
+
+Widget bottomNavBar(BuildContext context) =>
+    BottomNavigationBar(
+      items: [
+        BottomNavigationBarItem(icon: InkWell(
+            onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));}, child: const Icon(Icons.home_outlined, color: Colors.black)), label: "Home"),
+        const BottomNavigationBarItem(icon: Icon(Icons.person_outline, color: Colors.black), label: "Account"),
+        BottomNavigationBarItem(icon: InkWell(
+            onTap:()=> Navigator.push(context, MaterialPageRoute(builder: (context) => const ViewCart())),
+            child: const Icon(Icons.shopping_cart_outlined, color: Colors.black)), label: "View Cart"),
+        const BottomNavigationBarItem(icon: Icon(Icons.settings_outlined, color: Colors.black), label: "Settings"),
+        const BottomNavigationBarItem(icon: Icon(Icons.menu_outlined, color: Colors.black), label: "Menu")
+      ],
     );

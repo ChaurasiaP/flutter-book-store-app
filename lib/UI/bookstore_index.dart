@@ -1,3 +1,5 @@
+import 'package:book_store_app/UI/view_cart.dart';
+import 'package:book_store_app/services/resources/books_list.dart';
 import 'package:book_store_app/style/title_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -23,10 +25,22 @@ class _MainScreenState extends State<MainScreen> {
     "Price: high to low",
     "relevence"
   ];
+  List<Books> booksList = [];
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchBooksList();
+  }
+
+  fetchBooksList(){
+     booksList = Books.getBookDetails();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: SafeArea(
         child: Column(
           children: [
@@ -34,15 +48,7 @@ class _MainScreenState extends State<MainScreen> {
             const Column(
               children: [
                 Row(
-                    children: [
-                      SizedBox(height: 30),
-
-                      Text("ALL BOOKS", style: TextStyle(
-                          fontSize: 18
-                      )),
-                      Text("(250 books)", style: TextStyle(
-                          fontSize: 10, color: Colors.grey
-                      ),)]
+                    children: [SizedBox(height: 15),]
                 ),
               ],
             ),
@@ -54,6 +60,7 @@ class _MainScreenState extends State<MainScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: bottomNavBar(context),
     );
   }
   Widget _itemsList() =>
@@ -61,11 +68,14 @@ class _MainScreenState extends State<MainScreen> {
           mainAxisSpacing: 10,
           crossAxisSpacing: 10,
           crossAxisCount: 2,
-          itemCount: 20,
+          itemCount: booksList.length,
           itemBuilder: (context, index) =>
               InkWell(
+                splashColor: Colors.orangeAccent,
                 onHover: (value){},
-                onTap: (){},
+                onTap: (){
+
+                },
 
                 // item box containing image, description, price and action buttons
                 child: Container(
@@ -75,70 +85,107 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   height: 350,
                   width: 150,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _itemImage(),
-                      Padding(padding: const EdgeInsets.all(10),
-                          child: _itemDetails()),
-                      isTapped ? _addedToCart() : _actionButtons()
+                  child: InkWell(
+                    onHover: (value){
+                      Text(booksList[index].description);
+                    },
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _itemImage(index),
+                          ],
+                        ),
 
-                    ],
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(padding: const EdgeInsets.all(10),
+                                child: _itemDetails(index)),
+                          ],
+                        ),
+                        // isTapped ? _addedToCart(index) : _actionButtons(index)
+                      ],
+                    ),
                   ),
                 ),
               )
       );
 
-  Widget _itemImage() =>
+  Widget _itemImage(int index) =>
       Container(  // CONTAINS IMAGE OF THE PRODUCT
         color: Colors.grey[300],
         height: 180,
+        child: Image.asset(booksList[index].image),
       );
 
-  Widget _itemDetails() =>
-      const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _itemDetails(int index) =>
+      Column(
         children: [
-          Text("Book Name", style: TextStyle(
+          Text(booksList[index].bookName, style: const TextStyle(
+
+            overflow: TextOverflow.ellipsis,
               fontSize: 18, fontWeight: FontWeight.w600
           ),),
-          Text("author", style: TextStyle(
+          Text(booksList[index].author, style: const TextStyle(
               color: Colors.grey
           ),),
-          Text("Published in: ", style: TextStyle(
+          Text(booksList[index].publishedIn, style: const TextStyle(
               color: Colors.grey
           ),),
-          Text("Rs. 1500", style: TextStyle(
+          Text(booksList[index].price, style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600
-          ),)
+          ),),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+              ElevatedButton(
+                  style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Colors.orange)
+                  ),
+                  onPressed: (){
+                    setState(() {
+                      isTapped = true;
+                    });
+                  },
+                  child: const Icon(Icons.add_shopping_cart)),
+              ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Colors.yellow.shade400)
+                  ),
+                  onPressed: (){},
+                  child: const Icon(FontAwesomeIcons.heart))
+            ],
+          )
         ],
       );
 
-  Widget _actionButtons() =>
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          ElevatedButton(
-              style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.orange)
-              ),
-              onPressed: (){
-                setState(() {
-                  isTapped = true;
-                });
-              },
-              child: const Icon(Icons.add_shopping_cart)),
-          ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.yellow.shade400)
-              ),
-              onPressed: (){},
-              child: const Icon(FontAwesomeIcons.heart))
-        ],
-      );
+  // Widget _actionButtons(int index) =>
+  //     // Row(
+      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //   children: [
+      //     ElevatedButton(
+      //         style: const ButtonStyle(
+      //             backgroundColor: MaterialStatePropertyAll(Colors.orange)
+      //         ),
+      //         onPressed: (){
+      //           setState(() {
+      //             isTapped = true;
+      //           });
+      //         },
+      //         child: const Icon(Icons.add_shopping_cart)),
+      //     ElevatedButton(
+      //         style: ButtonStyle(
+      //             backgroundColor: MaterialStatePropertyAll(Colors.yellow.shade400)
+      //         ),
+      //         onPressed: (){},
+      //         child: const Icon(FontAwesomeIcons.heart))
+      //   ],
+      // );
 
-  Widget _addedToCart() =>
+  Widget _addedToCart(int index) =>
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

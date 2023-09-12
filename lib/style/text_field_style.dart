@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-InputDecoration textBoxDecoration(String message) =>
+InputDecoration textBoxDecoration(String label, String hint) =>
     InputDecoration(
         border: InputBorder.none,
-        labelText: message,
-        hintText: message);
+        labelText: label,
+        hintText: hint);

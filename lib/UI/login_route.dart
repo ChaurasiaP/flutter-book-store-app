@@ -45,12 +45,12 @@ class _LoginPageState extends State<LoginPage> {
                     //email input
                     TextField(
                         controller: emailController,
-                        decoration: textBoxDecoration("Enter Email")),
+                        decoration: textBoxDecoration("Email", "Enter Email")),
 
                     // password input
                     TextField(
                       controller: passwordController,
-                      decoration: textBoxDecoration("Enter Password"),
+                      decoration: textBoxDecoration("Password", "Enter Password"),
                       obscureText: true,
                       obscuringCharacter: '*',
                     ),
