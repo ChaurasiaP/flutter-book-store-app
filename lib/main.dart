@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:book_store_app/UI/bookstore_index.dart';
 import 'package:book_store_app/UI/login_route.dart';
+import 'package:book_store_app/UI/shimmer_demo.dart';
 import 'package:book_store_app/firebase_options.dart';
 import 'package:book_store_app/services/firebaseAPI.dart';
 import 'package:book_store_app/services/shared_pref.dart';
@@ -43,6 +44,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: SplashScreen(),
     );
   }

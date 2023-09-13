@@ -5,6 +5,7 @@ import 'package:book_store_app/style/text_field_style.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:page_transition/page_transition.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -103,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _splashScreen() =>
       Center(
-        child: Image.asset("imgs/bookstore_logo.png"),
+        child: Image.asset("assets/logopra/bookstore_logo.png"),
       );
   void _checkCredentials() async {
     String email = emailController.text.trim();
@@ -112,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
     try{
       await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((_) => LocalDataSaver.saveLogData(true));
       debugPrint("USER LOGGED IN");
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>const MainScreen()));
+      Navigator.push(context, PageTransition(child: const MainScreen(), type: PageTransitionType.topToBottom, duration: Duration(milliseconds: 500)));
     }on FirebaseAuthException catch(ex){
       debugPrint(ex.code.toString());
     }
